@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+//import logo from './logo.svg';
 import './App.css';
-import FirstComponent from './Components/FirstComponent';
-import SecondComponent from './Components/SecondComponent';
-import Counter from './Components/Counter';
+//import FirstComponent from './Components/FirstComponent';
+//import SecondComponent from './Components/SecondComponent';
+//import Counter from './Components/Counter';
 import TodoApp from './Components/TodoApp/TodoApp';
 import './bootstrap.css';
 

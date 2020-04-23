@@ -50,6 +50,7 @@ class LoginComponent extends Component {
         this.state.password
       );
       this.props.history.push(`/welcome/${this.state.username}`);
+
       {
         /* console.log('Successful');
         this.setState({ showSuccessMessage: true });
@@ -99,8 +100,7 @@ class LoginComponent extends Component {
   }
 }
 
-{
-  /*function ShowInvaliedCredentials(props) {
+/*function ShowInvaliedCredentials(props) {
     if (props.hasLoginFailed) {
       return <div>Invalied Credentials</div>;
     }
@@ -113,6 +113,5 @@ class LoginComponent extends Component {
     }
     return null;
   }*/
-}
 
 export default LoginComponent;
