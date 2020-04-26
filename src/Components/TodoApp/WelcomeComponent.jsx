@@ -5,7 +5,12 @@ import HelloWorldService from '../../api/todo/HelloWorldService.js';
 class WelcomeComponent extends Component {
   constructor(props) {
     super(props);
-    this.retrivewelcomeMessage = this.retriveWelcomeMessage.bind(this);
+    this.retriveWelcomeMessage = this.retriveWelcomeMessage.bind(this);
+    this.state = {
+      welcomeMessage: '',
+    };
+    this.handleSuccessfulResponse = this.handleSuccessfulResponse.bind(this);
+    this.handleError = this.handleError.bind(this);
   }
 
   render() {
@@ -19,21 +24,39 @@ class WelcomeComponent extends Component {
         <div className='container'>
           Click here to get a customized welcome message.
           <button
-            className='btn btn=success'
+            className='btn btn-success'
             onClick={this.retriveWelcomeMessage}
           >
             Get Welcome Message
           </button>
         </div>
+        <div className='container'>{this.state.welcomeMessage}</div>
       </>
     );
   }
 
   retriveWelcomeMessage() {
-    HelloWorldService.executeHelloWorldService().then((response) =>
-      console.log(response)
-    );
-    //.catch()
+    // HelloWorldService.executeHelloWorldService().then((response) =>
+    //   this.handleSuccessfulResponse(response));
+
+    //  HelloWorldService.executeHelloWorldBeanService().then((response) =>
+    //    this.handleSuccessfulResponse(response));
+
+    HelloWorldService.executeHelloWorldPathVariableService(
+      this.props.match.params.name
+    )
+      .then((response) => this.handleSuccessfulResponse(response))
+      .catch((error) => this.handleError(error));
+  }
+
+  handleSuccessfulResponse(response) {
+    console.log(response);
+    this.setState({ welcomeMessage: response.data.message });
+  }
+
+  handleError(error) {
+    console.log(error.response);
+    this.setState({ welcomeMessage: error.response.data.message });
   }
 }
 export default WelcomeComponent;
