@@ -11,10 +11,18 @@ class ListTodosComponent extends Component {
         //  { id: 2, description: 'task2', done: false, targetDate: new Date() },
         //  { id: 3, description: 'task3', done: false, targetDate: new Date() },
       ],
+      message: null,
     };
+    this.deleteTodoClicked = this.deleteTodoClicked.bind(this);
   }
 
   componentDidMount() {
+    console.log('componentDidMount');
+    this.refrashTodos();
+    console.log(this.state);
+  }
+
+  refrashTodos() {
     let username = AuthenticationService.getLoggedInUserName();
     TodoDataService.retrieveAllTodos(username).then((response) => {
       //console.log(response);
@@ -22,10 +30,22 @@ class ListTodosComponent extends Component {
     });
   }
 
+  deleteTodoClicked(id) {
+    let username = AuthenticationService.getLoggedInUserName();
+    //console.log(id, username);
+    TodoDataService.deleteTodo(username, id).then((response) => {
+      this.setState({ message: `Delete of todo ${id} successful` });
+      this.refrashTodos();
+    });
+  }
+
   render() {
     return (
       <div>
         <h1>List Todos</h1>
+        {this.state.message && (
+          <div classname='alart alart-success'>{this.state.message}</div>
+        )}
         <div classNaame='container'>
           <table className='table'>
             <thead>
@@ -34,6 +54,7 @@ class ListTodosComponent extends Component {
                 <th>description</th>
                 <th>Target date</th>
                 <th>Completed</th>
+                <th>Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -43,6 +64,14 @@ class ListTodosComponent extends Component {
                   <td>{todo.description}</td>
                   <td>{todo.done.toString()}</td>
                   <td>{todo.targetDate.toString()}</td>
+                  <td>
+                    <button
+                      className='btn btn-warning'
+                      onClick={() => this.deleteTodoClicked(todo.id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
